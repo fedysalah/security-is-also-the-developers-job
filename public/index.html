@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <title>Web Security</title>
+    <meta name="description" content="Web security" />
+    <meta name="author" content="Fedy salah" />
+    <link rel="stylesheet" href="extras/highlight/styles/github.css">
+    <link rel="stylesheet" href="extras/mermaid/mermaid.forest.css">
+    <link href="css/classic-slides.css" rel="stylesheet" />
+</head>
+
+<div id="impress"  data-autoplay="0">
+    <div id="introduction" class="step slide title" data-x="-1500" data-y="-1500">
+        <h1>Security is also <br />
+            the developer's job</h1>
+        <p class="right bottom">@fedysalah</p>
+        <div class="notes">
+            Je suis dévloppeur fullstak, durant mon expérence j'ai participé à plusieurs reprises dans le dévelppement et la mise en production de pas mal d'aplications web.
+            <br />
+            Je suis là aujourd'hui pour vous parler un peu de la sécurité web. 
+            <br />
+            Je suis loin d'être un expert en sécurité, et avant d'etre auditer par des expert du domaine sur une des applications que j'ai développé, je me considérais nul en sécurité et de que de toute façon la sécurité n'etait pas mon métier.
+            Mais la verité c'est que il faut avoir un minimum de connaissance en sécurité pour pouvoir développer des appli web dites Sécurisées.   
+            <br />
+            Le but de ce talk, est de sensibiliser les développeur à la sécurité, en montrant les vulnérabilités classiques et comme c'est facile de les exploiter, ainsi que comment les éviter.
+            Je vais aussi vous montrer les bonnes pratiques à suivre lors de vos développements afin de minimiser les risques et les dégâts en cas d'attaque.   
+        </div>
+    </div>
+
+    <div id="vulnerabilities" class="step slide" data-rel-x="1500" data-rel-y="0">
+        <h1>Vulnérabilités</h1>
+        <p><a href="#step-3">Contenu Web</a></p>
+        <p><a href="#step-5">Authentification</a></p>
+        <p><a href="#step-6">API</a></p>
+        <p class="right bottom">@fedysalah</p>
+        
+        <div class="notes">
+           <p>J'ai catégorisé les vulnérabilités en 3 types</p>
+           <p>Contenu Web: concerenra les vulnérabilités de votre contenu et comment est il servi sur web)</p>
+           <p>Authentification: concerenra les vulnérabilités liée à l'authentification de vos utilisateurs </p>
+           <p>API: concerenra les vulnérabilités de vos API </p>
+        </div>
+    </div>
+
+    <div class="step slide">
+        <h1>Contenu Web</h1>
+        <li><strong>Http <strike>s</strike></strong><br /></li>
+        <span class="substep">Toute communication client/serveur se fait en clair</span>
+        <div class="substep"><li><strong>innerHTML</strong><br /></li></div>
+        <span class="substep">Avec innerhtml vous êtes vulnérables aux attaques du type XSS</span>
+        <div class="substep">
+        <label for="story0">Type your text:</label>
+        <textarea id="story0" name="story0" onchange="myFunction()"
+          rows="5" cols="33">
+        </textarea>
+        <label><p id="demo0"></p></label>
+        <script type="text/javascript">
+            function myFunction() {
+                var x = document.getElementById("story0").value;
+                console.log(x)
+                document.getElementById("demo0").innerHTML = x;
+            }
+        </script>
+        </div>
+         <div class="substep"><li><strong>Local storage/session storage</strong><br /></li></div>
+         <span class="substep">Local storage et session storage ne sont pas du tout sécurisés</span>
+         <p class="right bottom">@fedysalah</p>
+        <div class="notes">
+       <p> Commencant par votre contenu, si servi que sur http sahchez que toute communication client/serveur se fait en clair. </p>
+       <p> Le innerhtml permet ajouter carrérement un neud à vorte dom, et un noeud ce n'est pas uniquement du HTML, 
+        c'est aussi du js. avec inner html vous etes ptemtiellemnt victime d'une sotre d'attaque qu'on appelle XSS:cross-site scripting, 
+        Si vous injectez du html d'un site externe avec innerhml, 
+        et ce site vous envoie un script qui par exp redirige toute les ruequete vers un autre serveur, vos donnés vous seront volés </p> 
+        <p></p>
+        <p>Le local storage n'a pas été conçu pour être utilisé comme mécanisme de stockage sécurisé dans un navigateur. </p>
+        <p>Si vous stocker des information sensible, ou encore les donner de votre session sont dans le local sotage,  il suffi d'un simple xss pour que  ces donnees soient perdus ou modifées,
+        et si vous dites que tout vas bien votre site est nickel et vous serez jamais victime d'ataqque xss, </p>
+
+        </div>
+    </div>
+
+    <div class="step slide">
+            <h1>Contenu Web</h1>
+            <li><strong>iframe</strong><br /></li>
+            <span class="substep">Le contenu de la même origine est autorisé à accéder au DOM du document <strong>hôte</strong></span>
+            <div class="substep"><li><strong>XSS</strong><br /></li></div>
+            <span class="substep">Les scripts externes sont autorisés à s'exécuter sur vos pages</span>
+            <div class="substep"><li><strong>CSRF</strong></li></div>
+            <div class="substep">
+                <img src="images/csrf.png" />       
+            </div>
+            <p class="right bottom">@fedysalah</p>
+            <div class="notes">
+           <p> iframe: si le contenu dan l'iframe presente une faille , un attaquent peut etendre se zone d'attaque vers le document perent exécuter  du code JavaScript dans le document "hôte"</p>
+           <p> XSS:cross-site scripting, Du moment où vous importez un lib js depuis internet dans votre page, vous être vulnérable à des ataques XSS la lib  peut changer le comportemnt de fetch par exemple pour envoyer les donnée de vos utilisateur vers d'autres sites...</p> 
+            <p>CSRF:cross-site request forgery, Si untilisateur malveillant fait un form/submit sur notre spage web, puis un lien ou un site extrieur, ce submit arrivera sur notre serveur avec les cookies (demande de transfet d'argent par exp).</p>
+            <p>Si vous stocker des information sensible, ou encre les donner de votre session dans le local sotage,  il sudditd'un simple xss pour que  ces doner soint perdu ou modifées</p>
+            </div>
+    </div>
+
+    <div class="step slide " data-x="-1500" data-rel-y="1000">
+            <h1>Authentification</h1>
+            <li><strong>Cookies</strong><br /></li>
+            <span class="substep">Les cookies sont visibles (dev tools/document.cookie)</span>
+            <div class="substep"><li><strong>SPA</strong><br /></li></div>
+            <span class="substep">Le code sera visible dès la page d'accueil </span><br/>
+            <span class="substep">Autentification et stockage de la session côté client</span>
+            <div class="substep"><li><strong>Tentatives de connexion</strong><br /></li></div>
+            <span class="substep">Celui qui fait les tentatives peut être un programme</span><br/>
+            <span class="substep">Les erreurs peuvent être utilisées pour mieux tenter</span>
+            <div class="substep"><li><strong>La déconnexion</strong><br /></li></div>
+            <span class="substep">Un compte qui se déconnecte pas, est un compte avec des accès ouverts permanents</span>
+            <p class="right bottom">@fedysalah</p>
+            <div class="notes">
+           <p> Cookies: Si les cookies content le profil utilisateur, des permissions etc..., noubliez pas que tout ce qui est accessible desuis le client peut être bidouillé </p>
+           <p>SPA: meme avec un code minifié, on peut voir les aapel fetch, on peut comprendre si les meme API sont utilsé dans des context diffent... </p> 
+            <p>Tentative de connexion: le robot finia toujours par y arriver surtout si on le laisse faire et on l'aide avec les messages d'erreur </p>
+            <p></p>
+            </div>
+    </div>
+
+    <div class="step slide" data-rel-x="1500" data-rel-y="0">
+            <h1>API</h1>
+            <li><strong>Requests</strong><br /></li>
+            <span class="substep">Les appels non cotrollés peuvent crasher votre serveur</span><br/>
+            <span class="substep">Les API non sécurisés peuvent être utilisés par les attaquants</span><br/>
+            <span class="substep">Un appel à une API ne doit pas permettre de déduire un autre</span><br/>
+            <div class="substep"><li><strong>Responses</strong><br /></li></div>
+            <span class="substep">Toutes infos en plus, que votre API envoie, peut-être utilisé</span><br/>
+            <span class="substep">Respectez la confidentialité des données de vos utilisateurs</span>
+            <div class="substep"><li><strong>Errors</strong><br /></li></div>
+            <span class="substep">Toute info dans une erreur peut être utlilisé par un attaqant </span><br/>
+            <span class="substep">Multiple erreur à une meme API, donne encore plus d'indices</span>
+            <p class="right bottom">@fedysalah</p>
+            <div class="notes">
+            <p> Requests: Un attaqant peut appeler vos api de façon permanente pour scrapper vos données </p>
+            <p> un attaqant peut faire tomber votre serveur, en envoyant des requetes immense que votre seveuer pourra pas supporter  </p>
+            <p> un appel à /users/1 revoie les donnees de l'utilisateur 1 </p>
+            <p> un appel à /users/2 revoie les donnees de l'utilisateur 2 </p>
+            <p> Responses: N'oubliez pas que vous etes les seul client de votee API </p> 
+            <p> 401, unauthorized, 400: l'email est obligatoire, 400 le username est obligatoire .... </p> 
+            <p></p>
+            </div>
+    </div>
+ 
+    <div class="step slide">
+        <h1>API</h1>
+        <li><strong>Traces</strong><br /></li>
+           <span class="substep">Si vous ne tracez pas vos appels, vous ne saurez pas qui vous appelle, donc vous ne saurez pas détecter les attaques</span><br/>
+         <div class="substep"><li><strong>SQL injection</strong><br /></li></div>
+            <div style=" display: grid;">
+                <div class="substep" style="grid-row: 1 / 3">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username"/>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password"/>
+                </div>
+                <div class="substep" style="grid-row: 1">
+                    <pre style="margin-bottom:0"><code>
+                    User login(String userName, String password){
+                    return 'select user from users where ' 
+                     + 'username='+ userName + 'and password = '+password+';'   
+                    }   
+                    </code></pre>
+                </div>
+                <div class="substep" style="grid-row: 2">
+                    <pre style="margin-bottom:0"><code style="margin-bottom:0">
+                        User login(String userName, String password ){
+                        return 'select user from users where '
+                            + 'username= test@test.com -- and password = ;'   
+                        }    
+                    </code></pre>
+                </div>
+            </div>
+            <p class="right bottom">@fedysalah</p>
+            <div class="notes">
+            <p> Traces: Sans les traces, vous arriverz pas décter les attaques et limiter les dégats </p>
+            <p> Attention à la concaténation de chaines de caracteres et l'injection SQL  </p> 
+            <p></p>
+            </div>
+    </div>
+
+    <div class="step slide">
+            <h1>API</h1>
+            <li><strong>Upload de fichier</strong><br /></li>
+               <span class="substep">On peut telechager des fichiers très gros que peuvent tomber le serveur</span><br/>
+               <span class="substep">On peut telechager des fichiers exécutables sur le serveur   </span><br/>
+               <span class="substep">On peut telechager des fichiers javascript (photo de profil) </span><br/>
+               <p class="right bottom">@fedysalah</p>
+                <div class="notes">
+                <p> Un ficher immense peut faire tomer le serveur</p>
+                <p> Un ficher executable puet supprimer d'autre ficher ouvrir des acess ...p>
+                <p>Un ficher déguiser sous forme d'image peut contenir de javascript qui s'executera sur le naviagateur...  </p> 
+                <p></p>
+                </div>
+        </div>
+
+     <div id="bestpracticies" class="step slide" data-x="-1500" data-rel-y="1000">
+                <h1>Bonnes pratiques</h1>
+                <p><a href="#step-10">Contenu Web</a></p>
+                <p><a href="#step-12">Authentification</a></p>
+                <p><a href="#step-13">API</a></p>
+                <p class="right bottom">@fedysalah</p>
+                <div class="notes">
+                   <p>J'ai catégorisé les bonne pratiques en 3 types</p>
+                   <p>Contenu Web: concerenra les vulnérabilités de votre contenu et comment est il servi sur web)</p>
+                   <p>Authentification: concerenra les vulnérabilités liée à l'authentification de vos utilisateurs </p>
+                   <p>API: concerenera les vulnérabilités de vos API </p>
+                </div>
+        </div>
+
+        <div class="step slide" data-rel-x="1500" data-rel-y="0">
+                <h1>Contenu Web</h1>
+                <li><strong>Https</strong><br /></li>
+                <span class="substep">Toute communication client/serveur sera encryptée</span>
+                <div class="substep"><li><strong>innerHTML</strong><br /></li></div>
+                <span class="substep">Utilsez textContent à la place </span>
+                <div class="substep">
+                <label for="story1">Type your text:</label>
+                <textarea id="story1" name="story1" onchange="myFunction2()"
+                  rows="5" cols="33">
+                </textarea>
+                <label><p id="demo2"></p></label>
+                <script type="text/javascript">
+                    function myFunction2() {
+                        var x = document.getElementById("story1").value;
+                        document.getElementById("demo2").textContent = x;
+                    }
+                </script>
+                </div>
+                 <div class="substep"><li><strong>Local storage/session storage</strong><br /></li></div>
+                 <span class="substep">Évitez au maximum l'utilisation de local storage/session storage </span>
+                 <p class="right bottom">@fedysalah</p>
+                <div class="notes">
+               <p> Https: Toute communication client/serveur sera en cryptée </p>
+               <p> Avec textContent les scripts ne seront pas executer  </p> 
+                <p>Si vous avez un etat à grader n'hésitez pas à la garder coté serveur (panier)</p>
+                </div>
+            </div>
+
+        <div class="step slide">
+                    <h1>Contenu Web</h1>
+                    <li><strong>iframe</strong><br /></li>
+                    <span class="substep">N'utilisez pas d'iframes</span><br/>
+                    <span class="substep"><code>X-Frame-Options: <span class="substep" style="color:red">DENY</span></code></span><br/>
+                
+                    <div class="substep"><li><strong>XSS</strong><br /></li></div>
+                    <span class="substep"><code>X-XSS-Protection: 1<span class="substep" style="color:red">; mode=block</span></code></span><br/>
+                    <span class="substep"><code>Content-Security-Policy: default-src 'self' img-src https://*;</code></span>
+
+                    <div class="substep"><li><strong>CSRF</strong><br /></li></div>
+                    <span class="substep">
+                            <img src="images/csrftoken.png" style="width:800px" />    
+                    </span>
+                   </span>
+                   <p class="right bottom">@fedysalah</p>
+                    <div class="notes">
+                   <p> iframe: Toute communication client/serveur se fait en clair, ce quin'est pas préconisé </p>
+                   <p> X-XSS-Protection: 1 : Active le filtrage XSS (généralement par défaut dans les navigateurs). Si une attaque de XSS est détectée, le navigateur nettoie la page (supprime les éléments dangereux).</p> 
+                   <p> X-XSS-Protection: 1 ; mode=block: Active le filtrage XSS  au lie de netoier la page le navigateur ne va pas la rendre </p> 
+                   <p> Content-Security-Policy permet aux administrateurs d'un site web de contrôler les ressources que l'agent utilisateur est autorisé à charger pour une page donnée.</p>
+                   <p> Regenerer un nouveau token à chque fois vous rendez votre page et vérifiez le au moment de votre submit</p>
+                    </div>
+        </div>
+
+        <div class="step slide " >
+                <h1>Authentification</h1>
+                <li><strong>Cookies/session</strong><br /></li>
+                <span class="substep">Cookies secure httponly et qui s'expirent dans le temps</span><br/>
+                <span class="substep">Un cookie contient un id de session aléatoire pas plus </span>
+                <div class="substep"><li><strong>SPA</strong><br /></li></div>
+                <span class="substep">Séparez le js de vos pages (Non connecté/Connecté)</span><br/>
+                <span class="substep">L'authentification passe toujours par votre serveur</span>
+                <div class="substep"><li><strong>Tentatives de connexion</strong><br /></li></div>
+                <span class="substep">Limitez le nombre de tentatives (filtgae IP ...) </span><br/>
+                <span class="substep">Erreurs generiques, pas d'indices</span>
+                <div class="substep"><li><strong>La déconnexion</strong><br /></li></div>
+                <span class="substep">Périodiquement, invalidez les cookies et détruisez la session</span>
+                <p class="right bottom">@fedysalah</p>
+                <div class="notes">
+               <p> Cookies: Coté serveur récupréez votre session avec votre cookie et faites tout les controles d'API naicessaire </p>
+               <p>SPA: n'hesitez pas à faire des JS differents, par exp avant et apres connexion </p> 
+               <p>SPA: pas d'authent avec un service tier purement coté client, passez la par votre serveur, et si vous en avez pas creez en un, créer votre propre session et votre propre cookie 
+                   (decorrlez ça de cotre servuere d'autehent, c'est parcequevotre servuer d'entent vous envour un token jwt que vous etre oblge de le mettre dans votre cookie ... )  </p> 
+               <p>Tentative de connexion: mettez en place des mecalnique de bloquage d'ip () si plusieur tentative, pas d'erreurs , genre votre compte n'est pas activé/ mot de passe erroné, email errorné  
+                    pour mot de passe oublié, si l'email n'exsite pas il ne faut pas le dire, les lein de chagenemt mot de pas sse doivent etre à usage unique et doivent s'expirer dans le temps  
+                </p>
+                <p></p>
+                </div>
+        </div>
+
+        <div class="step slide" data-x="-1500" data-rel-y="1000">
+                <h1>API</h1>
+                <li><strong>Requests</strong><br /></li>
+                <span class="substep">Validez tous vos appels (technique et métier) </span><br/>
+                <span class="substep">Tout appel doit être contrôlé par votre session</span><br/>
+                <span class="substep">Utilisez des ID aléatoire (pas d'auto incrémentation) </span><br/>
+                <span class="substep">Tracez qui vous appelle (session) </span><br/>
+                <span class="substep">Un appel auquel vous n'avez pas le droit, n'est pas autorisé</span><br/>
+                <span class="substep">Ayez la main sur vos sessions pour pouvoir agir à tout moment</span><br/>
+                <p class="right bottom">@fedysalah</p>
+                <div class="notes">
+                <p> Requests: Respectez les satandards HTTP (pas de modofication avec un GET)  </p>
+                <p> Fixez dea limites sur les tailles desrequetes http   </p>
+                <p> Si vous desactivez la session d'un utlisateur, tous ses appel vont etre rejeté  </p>
+                <p></p>
+                </div>
+        </div>
+
+        <div class="step slide" data-rel-x="1500" data-rel-y="0">
+                <h1>API</h1>
+                <li><strong>Responses</strong><br /></li>
+                <span class="substep">N'envoyez que le nécessaire</span><br/>
+                <span class="substep">Filtrez vos données côté serveur</span><br/>
+                <span class="substep">Faites des API intelligentes qui répondent en fonction de l'appelant</span><br/>
+                <li class="substep"><strong>Errors</strong><br /></li>
+                <span class="substep">Ne remontez jamais la stacktace au navigateur </span><br/>
+                <span class="substep">Utilisez des erreurs génériques, vous avez les logs</span><br/>
+                <p class="right bottom">@fedysalah</p>
+                <div class="notes">
+                <p> Responses: N'oubliez pas que vous etes les seul client de votre API </p> 
+                <p> un 400 bad request est la rgement suffisant , pas besoir d'allez plus loi vous n'etes pasentrai de faire un serveur d'API /p> 
+                <p></p>
+                </div>
+        </div>
+
+        <div class="step slide">
+                <h1>API</h1>
+                <li><strong>SQL injection</strong><br /></li>
+                   <span class="substep">Ne faites pas de la concaténation de chaînes</span><br/>
+                   <span class="substep">Utilisez des languages Type Safe (PrepredStatements)  </span><br/>
+                   <span class="substep">Testez l'injection SQL, sqlmap </span><br/>
+                   <span class="substep"><strong>Upload de fichier</strong><br /></span></li>
+                   <span class="substep">Limitez la taille de fichiers acceptés sur le serveur</span><br/>
+                   <span class="substep">Si vous pouvez, n'enregistrez pas les fichiers sur vos serveurs </span><br/>
+                   <span class="substep">Ne vous fiez pas aux extensions et inspectez le contenu</span><br/>
+                   <p class="right bottom">@fedysalah</p>
+                    <div class="notes">
+                    <p> Traces: Sans les traces, vous arriverz pas décter les attaques et limiter les dégats </p>
+                    <p> Attention à la concaténation de chaines de caracteres et l'injection SQL  </p> 
+                    <p></p>
+                    </div>
+            </div>
+
+            <div class="step slide" >
+                    <h1>Conclusion</h1>
+                    <div class="substep"><li>Contrôlez votre contenu (XSS)</li></div>
+                    <div class="substep"><li>Implémentez les CSRF</li></div>
+                    <div class="substep"><li>Multipliez vos  JS (Connecte/non connecté)</li></div>
+                    <div class="substep"><li>Servir le front par un NGINX/Tomcat et attaquer le serveur en API en (CORS) n'est pas une bonne idée</li></div>
+                    <div class="substep"><li>Utilisez le serveur pour l'authentification</li></div>
+                    <div class="substep"><li>Faites des API dédiées à votre front</li></div>
+                    <div class="substep"><li>Faites des API sécurisées et précises</li></div>
+                    <div class="substep"><li>Testez l'injection SQL</li></div>
+                    <div class="substep"><li>Contrôlez les fichiers qu'arrivent sur votre serveur</li></div>
+                    <p class="right bottom">@fedysalah</p>                  
+                        <div class="notes">
+                        <p> Traces: Sans les traces, vous arriverz pas décter les attaques et limiter les dégats </p>
+                        <p> Attention à la concaténation de chaines de caracteres et l'injection SQL  </p> 
+                        <p></p>
+                        </div>
+                </div>
+
+    <div id="moreinfo" class="step slide " data-x="-1500" data-rel-y="1000">
+        <h1>Plus d'info</h1>
+        <ul>
+        <li><a href="https://gomakethings.com/preventing-cross-site-scripting-attacks-when-using-innerhtml-in-vanilla-javascript/">https://gomakethings.com/preventing-cross-site-scripting-attacks-when-using-innerhtml-in-vanilla-javascript/</a></li>
+        <li><a href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)</a></li>
+        <li><a href="https://openclassrooms.com/fr/courses/2091901-protegez-vous-efficacement-contre-les-failles-web/2863569-la-csrf">https://openclassrooms.com/fr/courses/2091901-protegez-vous-efficacement-contre-les-failles-web/2863569-la-csrf</a></li>
+        <li><a href="https://www.youtube.com/watch?v=MKQ8gUGdKGs">https://www.youtube.com/watch?v=MKQ8gUGdKGs</a></li>
+        <li><a href="http://sqlmap.org/">http://sqlmap.org/</a></li>
+        <li><a href="https://medium.freecodecamp.org/a-quick-introduction-to-web-security-f90beaf4dd41">https://medium.freecodecamp.org/a-quick-introduction-to-web-security-f90beaf4dd41</a></li>
+    </div>
+    <div id="overview" class="step" data-x="800" data-y="0" data-scale="5" style="pointer-events: none;">
+    </div>
+    
+</div>
+
+<div id="impress-toolbar"></div>
+
+<div class="impress-progressbar"><div></div></div>
+<div class="impress-progress"></div>
+
+<div id="impress-help"></div>
+
+<script type="text/javascript" src="extras/highlight/highlight.pack.js"></script>
+<script type="text/javascript" src="extras/mermaid/mermaid.min.js"></script>
+<script type="text/javascript" src="extras/markdown/markdown.js"></script>
+
+<script type="text/javascript" src="js/impress.js"></script>
+<script>impress().init();</script>
+
+</body>
+</html>

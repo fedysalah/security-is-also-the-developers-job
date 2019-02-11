@@ -1,0 +1,17 @@
+{
+  "name": "security-is-also-the-developers-job",
+  "version": "1.0.0",
+  "description": "Slides for my talk about web security, based on [impressjs](https://impress.js.org/)",
+  "author": "fedy salah",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fedysalah/security-is-also-the-developers-job.git"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
