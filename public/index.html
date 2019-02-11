@@ -45,8 +45,6 @@
 
     <div class="step slide">
         <h1>Contenu Web</h1>
-        <li><strong>Http <strike>s</strike></strong><br /></li>
-        <span class="substep">Toute communication client/serveur se fait en clair</span>
         <div class="substep"><li><strong>innerHTML</strong><br /></li></div>
         <span class="substep">Avec innerhtml vous êtes vulnérables aux attaques du type XSS</span>
         <div class="substep">
@@ -84,8 +82,6 @@
             <h1>Contenu Web</h1>
             <li><strong>iframe</strong><br /></li>
             <span class="substep">Le contenu de la même origine est autorisé à accéder au DOM du document <strong>hôte</strong></span>
-            <div class="substep"><li><strong>XSS</strong><br /></li></div>
-            <span class="substep">Les scripts externes sont autorisés à s'exécuter sur vos pages</span>
             <div class="substep"><li><strong>CSRF</strong></li></div>
             <div class="substep">
                 <img src="images/csrf.png" />       
@@ -124,14 +120,11 @@
             <h1>API</h1>
             <li><strong>Requests</strong><br /></li>
             <span class="substep">Les appels non cotrollés peuvent crasher votre serveur</span><br/>
-            <span class="substep">Les API non sécurisés peuvent être utilisés par les attaquants</span><br/>
-            <span class="substep">Un appel à une API ne doit pas permettre de déduire un autre</span><br/>
             <div class="substep"><li><strong>Responses</strong><br /></li></div>
-            <span class="substep">Toutes infos en plus, que votre API envoie, peut-être utilisé</span><br/>
-            <span class="substep">Respectez la confidentialité des données de vos utilisateurs</span>
+            <span class="substep">Toute info en plus, que votre API envoie, peut-être utilisée</span><br/>
             <div class="substep"><li><strong>Errors</strong><br /></li></div>
-            <span class="substep">Toute info dans une erreur peut être utlilisé par un attaqant </span><br/>
-            <span class="substep">Multiple erreur à une meme API, donne encore plus d'indices</span>
+            <span class="substep">Toute info dans une erreur peut être utlilisée par un attaqant </span><br/>
+            <span class="substep">Multiples erreurs à une même API, donne encore plus d'indices</span>
             <p class="right bottom">@fedysalah</p>
             <div class="notes">
             <p> Requests: Un attaqant peut appeler vos api de façon permanente pour scrapper vos données </p>
@@ -146,9 +139,7 @@
  
     <div class="step slide">
         <h1>API</h1>
-        <li><strong>Traces</strong><br /></li>
-           <span class="substep">Si vous ne tracez pas vos appels, vous ne saurez pas qui vous appelle, donc vous ne saurez pas détecter les attaques</span><br/>
-         <div class="substep"><li><strong>SQL injection</strong><br /></li></div>
+        <li><strong>SQL injection</strong><br /></li>
             <div style=" display: grid;">
                 <div class="substep" style="grid-row: 1 / 3">
                     <label for="username">Username:</label>
@@ -184,9 +175,9 @@
     <div class="step slide">
             <h1>API</h1>
             <li><strong>Upload de fichier</strong><br /></li>
-               <span class="substep">On peut telechager des fichiers très gros que peuvent tomber le serveur</span><br/>
-               <span class="substep">On peut telechager des fichiers exécutables sur le serveur   </span><br/>
-               <span class="substep">On peut telechager des fichiers javascript (photo de profil) </span><br/>
+               <span class="substep">Fichiers très gros que peuvent tomber le serveur</span><br/>
+               <span class="substep">Fichiers exécutables sur le serveur   </span><br/>
+               <span class="substep">Fichiers javascript (photo de profil) </span><br/>
                <p class="right bottom">@fedysalah</p>
                 <div class="notes">
                 <p> Un ficher immense peut faire tomer le serveur</p>
@@ -212,8 +203,6 @@
 
         <div class="step slide" data-rel-x="1500" data-rel-y="0">
                 <h1>Contenu Web</h1>
-                <li><strong>Https</strong><br /></li>
-                <span class="substep">Toute communication client/serveur sera encryptée</span>
                 <div class="substep"><li><strong>innerHTML</strong><br /></li></div>
                 <span class="substep">Utilsez textContent à la place </span>
                 <div class="substep">
@@ -274,7 +263,7 @@
                 <span class="substep">L'authentification passe toujours par votre serveur</span>
                 <div class="substep"><li><strong>Tentatives de connexion</strong><br /></li></div>
                 <span class="substep">Limitez le nombre de tentatives (filtgae IP ...) </span><br/>
-                <span class="substep">Erreurs generiques, pas d'indices</span>
+                <span class="substep">Erreurs generiques</span>
                 <div class="substep"><li><strong>La déconnexion</strong><br /></li></div>
                 <span class="substep">Périodiquement, invalidez les cookies et détruisez la session</span>
                 <p class="right bottom">@fedysalah</p>
@@ -297,7 +286,6 @@
                 <span class="substep">Tout appel doit être contrôlé par votre session</span><br/>
                 <span class="substep">Utilisez des ID aléatoire (pas d'auto incrémentation) </span><br/>
                 <span class="substep">Tracez qui vous appelle (session) </span><br/>
-                <span class="substep">Un appel auquel vous n'avez pas le droit, n'est pas autorisé</span><br/>
                 <span class="substep">Ayez la main sur vos sessions pour pouvoir agir à tout moment</span><br/>
                 <p class="right bottom">@fedysalah</p>
                 <div class="notes">
