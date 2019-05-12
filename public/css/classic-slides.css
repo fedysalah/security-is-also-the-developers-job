@@ -157,6 +157,7 @@ body {
 /* Inline code, no Highlight.js */
 code {
     font-family: "Cutive mono","Courier New", monospace;
+    font-size: 24px
 }
 
 
@@ -208,7 +209,16 @@ small {
 }
 
 img {
-    width: 450px
+    width: 600px;
+    
+    object-fit: contain
+}
+
+.image-container{
+    display: flex;
+    padding-top: 80px;
+    height: 650px;
+    justify-content: center;
 }
 
 .slide .right {
@@ -244,10 +254,7 @@ img {
 /* 
     Specific styles for: .title slides 
 */
-
-.title {
        
-}
 
 .title h1,
 .title h2,
@@ -261,6 +268,8 @@ img {
 .title h2 { top: 300px; }
 .title h3 { top: 500px; }
 
+
+.title2 h2 { top: 10px; }
 
 
 /* Styles for animating the contents of a slide, such as a img, p, li or span element. ********/

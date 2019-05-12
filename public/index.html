@@ -11,9 +11,11 @@
 </head>
 
 <div id="impress"  data-autoplay="0">
-    <div id="introduction" class="step slide title" data-x="-1500" data-y="-1500">
-        <h1>Security is also <br />
-            the developer's job</h1>
+    <div id="introduction" class="step slide title title2" data-x="-1500" data-y="-1500">
+        <h2>Security is also the developer's job</h2>
+        <span class="substep image-container">    
+        <img src="https://i.giphy.com/11fot0YzpQMA0g.gif" />
+        </span>
         <p class="right bottom">@fedysalah</p>
         <div class="notes">
             Je suis dévloppeur fullstak, durant mon expérence j'ai participé à plusieurs reprises dans le dévelppement et la mise en production de pas mal d'aplications web.
@@ -45,7 +47,7 @@
 
     <div class="step slide">
         <h1>Contenu Web</h1>
-        <div class="substep"><li><strong>innerHTML</strong><br /></li></div>
+        <li><strong>innerHTML</strong><br /></li>
         <span class="substep">Avec innerhtml vous êtes vulnérables aux attaques du type XSS</span>
         <div class="substep">
         <label for="story0">Type your text:</label>
@@ -63,6 +65,7 @@
         </div>
          <div class="substep"><li><strong>Local storage/session storage</strong><br /></li></div>
          <span class="substep">Local storage et session storage ne sont pas du tout sécurisés</span>
+         <div class="substep" style="text-align:center; padding-top: 50px"><strong>Démo</strong></div>
          <p class="right bottom">@fedysalah</p>
         <div class="notes">
        <p> Commencant par votre contenu, si servi que sur http sahchez que toute communication client/serveur se fait en clair. </p>
@@ -82,10 +85,13 @@
             <h1>Contenu Web</h1>
             <li><strong>iframe</strong><br /></li>
             <span class="substep">Le contenu de la même origine est autorisé à accéder au DOM du document <strong>hôte</strong></span>
+            <div class="substep"><li><strong>XSS</strong></li></div>
+            <span class="substep">Par défaut l'exécution de scripts externes est autorisée</span>
             <div class="substep"><li><strong>CSRF</strong></li></div>
             <div class="substep">
-                <img src="images/csrf.png" />       
+                <img style="height:200px" src="images/csrf.png" />       
             </div>
+            <div class="substep" style="text-align:center; padding-top: 10px"><strong>Démo</strong></div>
             <p class="right bottom">@fedysalah</p>
             <div class="notes">
            <p> iframe: si le contenu dan l'iframe presente une faille , un attaquent peut etendre se zone d'attaque vers le document perent exécuter  du code JavaScript dans le document "hôte"</p>
@@ -104,13 +110,12 @@
             <span class="substep">Autentification et stockage de la session côté client</span>
             <div class="substep"><li><strong>Tentatives de connexion</strong><br /></li></div>
             <span class="substep">Celui qui fait les tentatives peut être un programme</span><br/>
-            <span class="substep">Les erreurs peuvent être utilisées pour mieux tenter</span>
-            <div class="substep"><li><strong>La déconnexion</strong><br /></li></div>
-            <span class="substep">Un compte qui se déconnecte pas, est un compte avec des accès ouverts permanents</span>
+            <span class="substep">Les erreurs peuvent être utilisées pour de meilleures tentatives</span>
+            <div class="substep" style="text-align:center; padding-top: 50px"><strong>Démo</strong></div>
             <p class="right bottom">@fedysalah</p>
             <div class="notes">
            <p> Cookies: Si les cookies content le profil utilisateur, des permissions etc..., noubliez pas que tout ce qui est accessible desuis le client peut être bidouillé </p>
-           <p>SPA: meme avec un code minifié, on peut voir les aapel fetch, on peut comprendre si les meme API sont utilsé dans des context diffent... </p> 
+           <p>SPA: meme avec un code minifié, on peut voir les aapel fetch, on peut comprendre si les meme API sont utilsé dans des contextes diffent... </p> 
             <p>Tentative de connexion: le robot finia toujours par y arriver surtout si on le laisse faire et on l'aide avec les messages d'erreur </p>
             <p></p>
             </div>
@@ -119,7 +124,7 @@
     <div class="step slide" data-rel-x="1500" data-rel-y="0">
             <h1>API</h1>
             <li><strong>Requests</strong><br /></li>
-            <span class="substep">Les appels non cotrollés peuvent crasher votre serveur</span><br/>
+            <span class="substep">Les appels non controllés peuvent crasher votre serveur</span><br/>
             <div class="substep"><li><strong>Responses</strong><br /></li></div>
             <span class="substep">Toute info en plus, que votre API envoie, peut-être utilisée</span><br/>
             <div class="substep"><li><strong>Errors</strong><br /></li></div>
@@ -164,6 +169,7 @@
                     </code></pre>
                 </div>
             </div>
+            <div class="substep" style="text-align:center; padding-top: 50px"><strong>Démo</strong></div>
             <p class="right bottom">@fedysalah</p>
             <div class="notes">
             <p> Traces: Sans les traces, vous arriverz pas décter les attaques et limiter les dégats </p>
@@ -175,14 +181,14 @@
     <div class="step slide">
             <h1>API</h1>
             <li><strong>Upload de fichier</strong><br /></li>
-               <span class="substep">Fichiers très gros que peuvent tomber le serveur</span><br/>
-               <span class="substep">Fichiers exécutables sur le serveur   </span><br/>
+               <span class="substep">Fichiers très gros pouvant faire tomber le serveur</span><br/>
+               <span class="substep">Fichiers exécutables sur le serveur </span><br/>
                <span class="substep">Fichiers javascript (photo de profil) </span><br/>
                <p class="right bottom">@fedysalah</p>
                 <div class="notes">
                 <p> Un ficher immense peut faire tomer le serveur</p>
                 <p> Un ficher executable puet supprimer d'autre ficher ouvrir des acess ...p>
-                <p>Un ficher déguiser sous forme d'image peut contenir de javascript qui s'executera sur le naviagateur...  </p> 
+                <p> Un ficher déguiser sous forme d'image peut contenir de javascript qui s'executera sur le naviagateur...  </p> 
                 <p></p>
                 </div>
         </div>
@@ -203,7 +209,7 @@
 
         <div class="step slide" data-rel-x="1500" data-rel-y="0">
                 <h1>Contenu Web</h1>
-                <div class="substep"><li><strong>innerHTML</strong><br /></li></div>
+                <li><strong>innerHTML</strong><br /></li>
                 <span class="substep">Utilsez textContent à la place </span>
                 <div class="substep">
                 <label for="story1">Type your text:</label>
@@ -219,7 +225,8 @@
                 </script>
                 </div>
                  <div class="substep"><li><strong>Local storage/session storage</strong><br /></li></div>
-                 <span class="substep">Évitez au maximum l'utilisation de local storage/session storage </span>
+                 <span class="substep">Évitez au maximum l'utilisation de local storage/session storage </span><br/>
+                 <span class="substep">Web crypto API </span>
                  <p class="right bottom">@fedysalah</p>
                 <div class="notes">
                <p> Https: Toute communication client/serveur sera en cryptée </p>
@@ -231,16 +238,17 @@
         <div class="step slide">
                     <h1>Contenu Web</h1>
                     <li><strong>iframe</strong><br /></li>
-                    <span class="substep">N'utilisez pas d'iframes</span><br/>
-                    <span class="substep"><code>X-Frame-Options: <span class="substep" style="color:red">DENY</span></code></span><br/>
+                    <span class="substep">Evitez l'utilisation d'iframes</span><br/>
+                    <span class="substep"><code>X-Frame-Options: <span class="substep" style="color:red">DENY</span><span class="substep" style="color:red"> / SAMEORIGIN</span> </code></span><br/>
                 
                     <div class="substep"><li><strong>XSS</strong><br /></li></div>
                     <span class="substep"><code>X-XSS-Protection: 1<span class="substep" style="color:red">; mode=block</span></code></span><br/>
-                    <span class="substep"><code>Content-Security-Policy: default-src 'self' img-src https://*;</code></span>
-
+                    <span class="substep"><code>Content-Security-Policy: default-src 'self' img-src https://*;</code></span><br/>
+                    <span class="substep"><code>&lt;<span style="color:purple">script</span> src="https://exemple.com/exemple-framework.js"
+                        <span style="color:red">integrity</span>="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K..."&gt;&lt;/<span style="color:purple">script</span>&gt;</code></span>
                     <div class="substep"><li><strong>CSRF</strong><br /></li></div>
                     <span class="substep">
-                            <img src="images/csrftoken.png" style="width:800px" />    
+                        <img src="images/csrftoken.png" style="width:800px" />    
                     </span>
                    </span>
                    <p class="right bottom">@fedysalah</p>
@@ -262,10 +270,8 @@
                 <span class="substep">Séparez le js de vos pages (Non connecté/Connecté)</span><br/>
                 <span class="substep">L'authentification passe toujours par votre serveur</span>
                 <div class="substep"><li><strong>Tentatives de connexion</strong><br /></li></div>
-                <span class="substep">Limitez le nombre de tentatives (filtgae IP ...) </span><br/>
-                <span class="substep">Erreurs generiques</span>
-                <div class="substep"><li><strong>La déconnexion</strong><br /></li></div>
-                <span class="substep">Périodiquement, invalidez les cookies et détruisez la session</span>
+                <span class="substep">Limitez le nombre de tentatives (filtrage IP ...) </span><br/>
+                <span class="substep">Erreurs génériques</span>
                 <p class="right bottom">@fedysalah</p>
                 <div class="notes">
                <p> Cookies: Coté serveur récupréez votre session avec votre cookie et faites tout les controles d'API naicessaire </p>
@@ -283,8 +289,8 @@
                 <h1>API</h1>
                 <li><strong>Requests</strong><br /></li>
                 <span class="substep">Validez tous vos appels (technique et métier) </span><br/>
-                <span class="substep">Tout appel doit être contrôlé par votre session</span><br/>
-                <span class="substep">Utilisez des ID aléatoire (pas d'auto incrémentation) </span><br/>
+                <span class="substep">Tout appel API, en mode connecté, doit être contrôlé par votre session</span><br/>
+                <span class="substep">Utilisez des ID aléatoires (pas d'auto incrémentation) </span><br/>
                 <span class="substep">Tracez qui vous appelle (session) </span><br/>
                 <span class="substep">Ayez la main sur vos sessions pour pouvoir agir à tout moment</span><br/>
                 <p class="right bottom">@fedysalah</p>
@@ -301,9 +307,9 @@
                 <li><strong>Responses</strong><br /></li>
                 <span class="substep">N'envoyez que le nécessaire</span><br/>
                 <span class="substep">Filtrez vos données côté serveur</span><br/>
-                <span class="substep">Faites des API intelligentes qui répondent en fonction de l'appelant</span><br/>
+                <span class="substep">Donnez du contexte à vos API, réponses en fonction de l'appelant</span><br/>
                 <li class="substep"><strong>Errors</strong><br /></li>
-                <span class="substep">Ne remontez jamais la stacktace au navigateur </span><br/>
+                <span class="substep">Ne remontez jamais la stacktrace au navigateur </span><br/>
                 <span class="substep">Utilisez des erreurs génériques, vous avez les logs</span><br/>
                 <p class="right bottom">@fedysalah</p>
                 <div class="notes">
@@ -317,10 +323,10 @@
                 <h1>API</h1>
                 <li><strong>SQL injection</strong><br /></li>
                    <span class="substep">Ne faites pas de la concaténation de chaînes</span><br/>
-                   <span class="substep">Utilisez des languages Type Safe (PrepredStatements)  </span><br/>
+                   <span class="substep">Utilisez des langages Type Safe (PreparedStatement)  </span><br/>
                    <span class="substep">Testez l'injection SQL, sqlmap </span><br/>
-                   <span class="substep"><strong>Upload de fichier</strong><br /></span></li>
-                   <span class="substep">Limitez la taille de fichiers acceptés sur le serveur</span><br/>
+                   <li class="substep"><strong>Upload de fichier</strong><br /></li>
+                   <span class="substep">Limitez la taille des fichiers acceptés sur le serveur</span><br/>
                    <span class="substep">Si vous pouvez, n'enregistrez pas les fichiers sur vos serveurs </span><br/>
                    <span class="substep">Ne vous fiez pas aux extensions et inspectez le contenu</span><br/>
                    <p class="right bottom">@fedysalah</p>
@@ -335,13 +341,11 @@
                     <h1>Conclusion</h1>
                     <div class="substep"><li>Contrôlez votre contenu (XSS)</li></div>
                     <div class="substep"><li>Implémentez les CSRF</li></div>
-                    <div class="substep"><li>Multipliez vos  JS (Connecte/non connecté)</li></div>
-                    <div class="substep"><li>Servir le front par un NGINX/Tomcat et attaquer le serveur en API en (CORS) n'est pas une bonne idée</li></div>
+                    <div class="substep"><li>Multipliez vos  JS (Connecté/non connecté)</li></div>
                     <div class="substep"><li>Utilisez le serveur pour l'authentification</li></div>
-                    <div class="substep"><li>Faites des API dédiées à votre front</li></div>
-                    <div class="substep"><li>Faites des API sécurisées et précises</li></div>
+                    <div class="substep"><li>Faites des API sécurisées, précises et dédiées à votre front</li></div>
                     <div class="substep"><li>Testez l'injection SQL</li></div>
-                    <div class="substep"><li>Contrôlez les fichiers qu'arrivent sur votre serveur</li></div>
+                    <div class="substep"><li>Contrôlez les fichiers qui arrivent sur votre serveur</li></div>
                     <p class="right bottom">@fedysalah</p>                  
                         <div class="notes">
                         <p> Traces: Sans les traces, vous arriverz pas décter les attaques et limiter les dégats </p>
